@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary name="blockchain-mapping">
+	<exchange id="bitfinex">
+		<product id="btc">
+			<name>bitcoin</name>
+			<type>crypto_currency</type>
+			<pair>BTC/USD</pair>
+			<ticker>tBTCUSD</ticker>
+			<message>
+				<property name="CHANNEL_ID">CHANNEL_ID</property>
+				<property name="MTS">MTS</property>
+				<property name="AMOUNT">AMOUNT</property>
+				<property name="PRICE">PRICE</property>
+			</message>
+		</product>
+	</exchange>
+<dictionary>
