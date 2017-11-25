@@ -2,13 +2,17 @@ package org.feedhandler.feedhandler;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
+import org.feedhandler.models.Transaction;
 import org.feedhandler.sender.FeedSender;
 
 public class FeedHandler {
 	private final Integer TIME_WAITING_FOR_MESSAGES = 2000;
 	private final String HEARTBEAT_MESSAGE = "pong";
 	private final String HEARTBEAT_KEYWORD_RESPONSE = "hb";
+	private final Integer SNAPSHOT_LENGTH_FLAG = 1000;
 
 	private String apiResourceAddress;
 	private WebsocketClientEndpoint clientEndPoint;
@@ -47,13 +51,37 @@ public class FeedHandler {
 		clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
             public void handleMessage(String message) {
             		if (!message.contains(HEARTBEAT_KEYWORD_RESPONSE)) {
-                		System.out.println(message);
+                		if (isValidMessage(message) && !isSnapshotMessage(message)) {
+                			Transaction transaction = getTransaction(message);
+            	    			feedSender.sendMessage(transaction.toString());
+            	    			
+            	    			System.out.println(transaction.toString());
+                		}
             		}
-            		 
-            		message = getMessageFormated(message);
-            	    feedSender.sendMessage(message);
             }
         });
+	}
+	
+	// Not subscription message
+	private Boolean isValidMessage(String message) {
+		boolean valid = false;
+		
+		if (!message.contains("event")) {
+			valid = true;
+		}
+		
+		return valid;
+	}
+	
+	// Check message length to detect if it is Delta message or a Exchange Snapshot
+	private Boolean isSnapshotMessage(String message) {
+		Boolean result = false;
+		
+		if (message.length() > SNAPSHOT_LENGTH_FLAG) {
+			result = true;
+		}
+	
+		return result;
 	}
 	
 	private void setUpCommunication() {
@@ -73,12 +101,24 @@ public class FeedHandler {
 		}
 	}
 	
-	private String getMessageFormated(String message) {
-		message = message.replace("[", "");
-		message = message.replace("]", "");
+	private Transaction getTransaction(String rawMessage) {
+		rawMessage = rawMessage.replace("[", "");
+		rawMessage = rawMessage.replace("]", "");
 		
-		return message;
+		StringTokenizer st = new StringTokenizer(rawMessage, ",");
+		HashMap<String, String> message = new HashMap<String, String>();
+		
+		message.put("channelId", st.nextToken());
+		st.nextToken();
+		message.put("mts", st.nextToken());
+		message.put("amount", st.nextToken());
+		message.put("price", st.nextToken());
+		
+		Transaction transaction = new Transaction(message);
+		
+		return transaction;
 	}
+	
 	
 	private void keepAliveConnection() {
 		final Thread keepAliveThread = new Thread() {
