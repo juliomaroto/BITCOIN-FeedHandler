@@ -1,10 +1,11 @@
 # BTC FeedHandler
 
-DISCLAIMER:
+- Disclaimer:
 
 Development phase (PERFORMANCE COULD NOT TO BE PERFECT AT A PRODUCTION ENVIRONMENT AS YOU COULD EXPECT)
 
-Bitcoin Feedhandler
+
+- Details:
 
 You can find exchange configuration in "conf/app.properties" path. This component has the ability of handling Bitcoin exchanges feed and serve it through a AMQP based queue system:
 
