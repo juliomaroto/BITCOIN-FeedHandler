@@ -26,3 +26,7 @@ Communications:
 WebServer for WS communications:
 
 - Glashfish.
+
+Default configuration:
+
+This software is prepared by default for working with Bitfinex exhange WS API (1, 2 versions)
