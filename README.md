@@ -2,7 +2,7 @@
 
 - Disclaimer:
 
-Version: 0.1v alpha (PERFORMANCE COULD NOT BE PERFECT AT A PRODUCTION ENVIRONMENT AS YOU COULD EXPECT).
+Version: 0.1v alpha (Performance could not be perfect at production environments as you could expect).
 
 
 - Details:
