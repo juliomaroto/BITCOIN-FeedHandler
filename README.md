@@ -1,16 +1,16 @@
 # BTC FeedHandler
 
-- Disclaimer:
+Disclaimer:
 
-Version: 0.1v alpha (Performance could not be perfect at production environments as you could expect).
+- Version: 0.1v alpha (Performance could not be perfect at production environments as you could expect).
 
-- Description:
+Description:
 
-This component has the ability of handling Bitcoin exchanges feed and serve it through a AMQP based queue system:
+- This component has the ability of handling Bitcoin exchanges feed and serve it through a AMQP based queue system:
 
-- Details:
+Details:
 
-You can find application configuration file in "conf/app.properties" path. 
+- You can find application configuration file in "conf/app.properties" path. 
 
 
 AMQP based system used:
