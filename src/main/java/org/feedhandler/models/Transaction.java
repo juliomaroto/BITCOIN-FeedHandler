@@ -6,14 +6,14 @@ public class Transaction {
 	
 	private Integer channeldId;
 	private Integer millisecondTimestamp;
-	private long amount;
-	private long price;
+	private Double amount;
+	private Double price;
 	
 	public Transaction(HashMap<String, String> message) {
 		this.channeldId = Integer.parseInt(message.get("channelId"));
 		this.millisecondTimestamp = Integer.parseInt(message.get("mts"));
-		this.amount = Long.parseLong(message.get("mts"));
-		this.price = Long.parseLong(message.get("price"));
+		this.amount = Double.parseDouble(message.get("amount"));
+		this.price = Double.parseDouble(message.get("price"));
 	}
 	
 	public String toString() {
