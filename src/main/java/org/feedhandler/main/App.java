@@ -11,6 +11,7 @@ import org.feedhandler.feedhandler.FeedHandler;
 import org.feedhandler.sender.FeedSender;
 
 public class App {
+	private final static String CONFIG_FILEPATH = "conf/app.properties";
 	
 	private static Properties properties = new Properties();
 	private static InputStream propertiesFileInputStream = null;
@@ -35,7 +36,7 @@ public class App {
 	
 	private static void loadPropertiesFile() {
 		try {
-			propertiesFileInputStream = new FileInputStream("conf/app.properties");
+			propertiesFileInputStream = new FileInputStream(CONFIG_FILEPATH);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

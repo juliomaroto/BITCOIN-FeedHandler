@@ -11,7 +11,7 @@ import org.feedhandler.sender.FeedSender;
 public class FeedHandler {
 	private final Integer TIME_WAITING_FOR_MESSAGES = 2000;
 	private final String HEARTBEAT_MESSAGE = "pong";
-	private final String HEARTBEAT_KEYWORD_RESPONSE = "hb";
+	private final String HEARTBEAT_RESPONSE_KEYWORD = "hb";
 	private final Integer SNAPSHOT_LENGTH_FLAG = 1000;
 
 	private String apiResourceAddress;
@@ -50,11 +50,11 @@ public class FeedHandler {
 	private void attachOnMessageEventListener() {
 		clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
             public void handleMessage(String message) {
-            		if (!message.contains(HEARTBEAT_KEYWORD_RESPONSE)) {
-                		if (isValidMessage(message) && !isSnapshotMessage(message)) {
+            		if (false == isHeartbeatMessage(message)) {            				
+                		if (isValidMessage(message) && (false == isSnapshotMessage(message))) {
                 			Transaction transaction = getTransaction(message);
             	    			feedSender.sendMessage(transaction.toString());
-            	    			
+
             	    			System.out.println(transaction.toString());
                 		}
             		}
@@ -62,15 +62,23 @@ public class FeedHandler {
         });
 	}
 	
+	
+	private Boolean isHeartbeatMessage(String message) {
+		Boolean result = false;
+		
+		if (message.contains(HEARTBEAT_RESPONSE_KEYWORD))
+			result = true;
+			
+		return result;
+	}
 	// Not subscription message
 	private Boolean isValidMessage(String message) {
-		boolean valid = false;
+		boolean result = false;
 		
-		if (!message.contains("event")) {
-			valid = true;
-		}
+		if (!message.contains("event"))
+			result = true;
 		
-		return valid;
+		return result;
 	}
 	
 	// Check message length to detect if it is Delta message or a Exchange Snapshot
@@ -118,7 +126,6 @@ public class FeedHandler {
 		
 		return transaction;
 	}
-	
 	
 	private void keepAliveConnection() {
 		final Thread keepAliveThread = new Thread() {
