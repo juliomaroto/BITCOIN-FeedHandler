@@ -2,7 +2,7 @@
 
 Description:
 
-This component is able to read a data streaming of "bid and asks" or "trade orders" (bid and asks orders matching).
+This component is able to read a data streaming of "bid and asks" or "trade orders" (bid and asks orders matching). Default configuration is set to working with websocket API of Bitfinex, but you can feel free to modify it and adapt the software for your personal needs. Forking and star this repo is grateful, if you consider it.
 
 Disclaimer:
 
